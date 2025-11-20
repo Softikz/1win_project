@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>1WIN — игровая платформа</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script defer src="/app.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <div id="root">
+
+    <!-- HERO / LOGO -->
+    <section id="hero" class="hero center-col">
+      <div id="logo-wrap" class="logo-wrap" aria-hidden="true">
+        <h1 class="logo" aria-label="1WIN">
+          <span class="letter l1">1</span>
+          <span class="letter l2">W</span>
+          <span class="letter l3">I</span>
+          <span class="letter l4">N</span>
+        </h1>
+        <div class="logo-ember"></div>
+      </div>
+
+      <!-- AUTH STAGE: registration / login (appears after logo animation) -->
+      <div id="auth-stage" class="auth-stage hidden">
+        <div class="auth-tabs">
+          <button id="tab-register" class="tab active">Регистрация</button>
+          <button id="tab-login" class="tab">Вход</button>
+        </div>
+
+        <div class="auth-forms">
+          <form id="form-register" class="auth-card">
+            <h3>Создать аккаунт</h3>
+            <label>Никнейм
+              <input id="reg-nick" type="text" autocomplete="nickname" />
+              <small class="hint" id="reg-nick-hint"></small>
+            </label>
+            <label>Почта
+              <input id="reg-email" type="email" autocomplete="email" />
+              <small class="hint" id="reg-email-hint"></small>
+            </label>
+            <label>Пароль
+              <input id="reg-pass" type="password" autocomplete="new-password" />
+              <small class="hint" id="reg-pass-hint"></small>
+            </label>
+            <label>Повторите пароль
+              <input id="reg-pass2" type="password" autocomplete="new-password" />
+              <small class="hint" id="reg-pass2-hint"></small>
+            </label>
+            <div class="form-row">
+              <button id="btn-register" class="btn primary" disabled>Зарегистрироваться</button>
+            </div>
+            <p class="muted">Уже есть аккаунт? <a href="#" id="go-login">Войти</a></p>
+          </form>
+
+          <form id="form-login" class="auth-card hidden">
+            <h3>Вход в аккаунт</h3>
+            <label>Ник или почта
+              <input id="login-id" type="text" autocomplete="username" />
+              <small class="hint" id="login-id-hint"></small>
+            </label>
+            <label>Пароль
+              <input id="login-pass" type="password" autocomplete="current-password" />
+              <small class="hint" id="login-pass-hint"></small>
+            </label>
+            <div class="form-row">
+              <button id="btn-login" class="btn primary">Войти</button>
+            </div>
+            <p class="muted">Нет аккаунта? <a href="#" id="go-register">Зарегистрироваться</a></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOTIFY -->
+    <div id="notify" class="notify hidden"></div>
+
+    <!-- MAIN APP (hidden until login) -->
+    <main id="app" class="app hidden">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-logo">1WIN</div>
+          <div class="brand-sub muted">Игровая платформа</div>
+        </div>
+        <div class="top-actions">
+          <div id="user-summary" class="user-summary hidden">
+            <div id="user-nick" class="user-nick"></div>
+            <div id="user-balance" class="user-balance muted"></div>
+          </div>
+          <button id="btn-admin-panel" class="btn small hidden">Admin</button>
+          <button id="btn-logout" class="btn small">Выйти</button>
+        </div>
+      </header>
+
+      <section class="main-layout">
+        <nav class="sidebar">
+          <ul>
+            <li class="nav-item" data-view="menu"><i class="fa-solid fa-house"></i><span>Главная</span></li>
+            <li class="nav-item" data-view="games"><i class="fa-solid fa-dice"></i><span>Игры</span></li>
+            <li class="nav-item" data-view="bank"><i class="fa-solid fa-university"></i><span>Банк</span></li>
+            <li class="nav-item" data-view="profile"><i class="fa-solid fa-user"></i><span>Профиль</span></li>
+            <li class="nav-item" data-view="clans"><i class="fa-solid fa-users"></i><span>Кланы</span></li>
+            <li class="nav-item" data-view="leaders"><i class="fa-solid fa-trophy"></i><span>Лидеры</span></li>
+            <li class="nav-item" data-view="statuses"><i class="fa-solid fa-certificate"></i><span>Статусы</span></li>
+            <li class="nav-item" data-view="players"><i class="fa-solid fa-search"></i><span>Игроки</span></li>
+          </ul>
+        </nav>
+
+        <section class="workspace">
+          <!-- Views -->
+          <div id="view-menu" class="view">
+            <div class="welcome-card card">
+              <h2>Добро пожаловать в 1WIN</h2>
+              <p class="muted">Выберите раздел слева или начните игру прямо сейчас.</p>
+              <div class="big-actions">
+                <button class="btn big" data-view="games">Играть</button>
+                <button class="btn big outline" data-view="bank">Банк</button>
+              </div>
+            </div>
+
+            <div class="grid-menu">
+              <div class="menu-card" data-view="games">
+                <i class="fa-solid fa-gamepad"></i>
+                <div class="title">Игры</div>
+                <div class="sub">Слоты, Ракета, Баскетбол</div>
+              </div>
+              <div class="menu-card" data-view="bank">
+                <i class="fa-solid fa-university"></i>
+                <div class="title">Банк</div>
+                <div class="sub">Переводы и проценты</div>
+              </div>
+              <div class="menu-card" data-view="profile">
+                <i class="fa-solid fa-user"></i>
+                <div class="title">Профиль</div>
+                <div class="sub">Баланс, бонусы</div>
+              </div>
+              <div class="menu-card" data-view="clans">
+                <i class="fa-solid fa-users"></i>
+                <div class="title">Кланы</div>
+                <div class="sub">Управление и чат</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="view-games" class="view hidden">
+            <h2 class="view-title">Игры</h2>
+            <div class="games-grid">
+              <section class="game-card slot-card card">
+                <h3>Слоты</h3>
+                <div class="slot-machine">
+                  <div class="reel" id="reel1">?</div>
+                  <div class="reel" id="reel2">?</div>
+                  <div class="reel" id="reel3">?</div>
+                </div>
+                <div class="controls">
+                  <input id="slot-bet" type="number" value="100" min="1" />
+                  <button id="btn-spin" class="btn">Крутить!</button>
+                </div>
+                <div id="slot-result" class="muted small"></div>
+              </section>
+
+              <section class="game-card rocket-card card">
+                <h3>Ракета</h3>
+                <div class="rocket-field">
+                  <div class="rocket" id="rocket">🚀</div>
+                  <div class="mult-scale">
+                    <div>1.0x</div><div>1.5x</div><div>2.0x</div><div>3.0x</div><div>5.0x</div>
+                  </div>
+                </div>
+                <div class="controls">
+                  <input id="rocket-bet" type="number" value="100" min="1" />
+                  <button id="btn-launch" class="btn">Запуск</button>
+                </div>
+                <div id="rocket-result" class="muted small"></div>
+              </section>
+
+              <section class="game-card basket-card card">
+                <h3>Баскетбол</h3>
+                <div class="basket-field">
+                  <div class="hoop">🏀</div>
+                  <div class="ball" id="ball">⚽</div>
+                </div>
+                <div class="controls">
+                  <input id="basket-bet" type="number" value="100" min="1" />
+                  <button id="btn-throw" class="btn">Бросить</button>
+                </div>
+                <div id="basket-result" class="muted small"></div>
+              </section>
+            </div>
+          </div>
+
+          <div id="view-bank" class="view hidden">
+            <h2 class="view-title">Банк</h2>
+            <div class="card bank-card">
+              <p>Номер счета: <b id="bank-account">—</b></p>
+              <p>Баланс в банке: <b id="bank-balance">0</b></p>
+              <p>Основной баланс: <b id="main-balance">0</b></p>
+              <div class="bank-controls">
+                <input id="bank-amount" type="number" value="100" min="1" />
+                <button id="btn-deposit" class="btn">Пополнить</button>
+                <button id="btn-withdraw" class="btn">Снять</button>
+                <input id="bank-transfer-to" placeholder="Номер счёта получателя" />
+                <button id="btn-transfer" class="btn">Перевести</button>
+              </div>
+              <h4>История</h4>
+              <div id="tx-history" class="tx-list"></div>
+            </div>
+          </div>
+
+          <div id="view-profile" class="view hidden">
+            <h2 class="view-title">Профиль</h2>
+            <div class="card profile-card">
+              <div class="profile-grid">
+                <div>Никнейм: <b id="p-nick">—</b></div>
+                <div>Баланс: <b id="p-balance">0</b></div>
+                <div>Дата регистрации: <b id="p-registered">—</b></div>
+                <div>Номер счета: <b id="p-account">—</b></div>
+                <div>На счете: <b id="p-bank">0</b></div>
+                <div>Всего заработано: <b id="p-earned">0</b></div>
+                <div>Клан: <b id="p-clan">Нет</b></div>
+                <div>Статус: <b id="p-status">Новичок</b></div>
+                <div>Сыграно игр: <b id="p-played">0</b></div>
+                <div>Макс выигрыш: <b id="p-maxwin">0</b></div>
+              </div>
+              <div class="profile-actions" style="margin-top:12px;">
+                <button id="btn-bonus" class="btn">Получить бонус</button>
+                <span id="bonus-timer" class="muted small" style="margin-left:12px;"></span>
+              </div>
+            </div>
+          </div>
+
+          <div id="view-clans" class="view hidden">
+            <h2 class="view-title">Кланы</h2>
+            <div class="card">
+              <div id="clan-join-area">
+                <button id="btn-create-clan" class="btn">Создать клан (50 000$)</button>
+                <h4 style="margin-top:12px">Доступные кланы</h4>
+                <div id="clan-list"></div>
+              </div>
+
+              <div id="my-clan-area" class="hidden" style="margin-top:12px">
+                <h3 id="my-clan-name"></h3>
+                <p id="my-clan-desc"></p>
+                <p>Казна: <span id="my-clan-treasury">0</span></p>
+                <div id="clan-members"></div>
+                <h4>Чат</h4>
+                <div id="clan-chat" class="chat-window"></div>
+                <input id="clan-msg" placeholder="Сообщение..." />
+                <button id="btn-send-clan" class="btn">Отправить</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="view-leaders" class="view hidden">
+            <h2 class="view-title">Таблица лидеров</h2>
+            <div class="card">
+              <div id="leaders-players"></div>
+              <div id="leaders-clans" style="margin-top:14px"></div>
+            </div>
+          </div>
+
+          <div id="view-statuses" class="view hidden">
+            <h2 class="view-title">Статусы</h2>
+            <div id="statuses-list" class="card"></div>
+          </div>
+
+          <div id="view-players" class="view hidden">
+            <h2 class="view-title">Игроки</h2>
+            <div class="card">
+              <input id="search-player" placeholder="искать игрока по никнейму..." />
+              <button id="btn-search-player" class="btn">Поиск</button>
+              <div id="search-results" style="margin-top:12px"></div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <!-- Admin modal -->
+    <div id="admin-modal" class="modal hidden" aria-hidden="true">
+      <div class="modal-card">
+        <h3>Admin Tools</h3>
+        <div id="admin-mode-row">
+          <button id="btn-toggle-admin-mode" class="btn">Переключить режим админа</button>
+          <span id="admin-mode-status" class="muted"></span>
+        </div>
+        <hr />
+        <div>
+          <h4>Прогноз</h4>
+          <button id="btn-predict" class="btn">Получить прогноз</button>
+          <div id="predict-result" class="muted"></div>
+        </div>
+        <hr />
+        <div>
+          <h4>Начислить средства</h4>
+          <input id="admin-grant-amount" type="number" value="1000000" />
+          <button id="btn-grant" class="btn">Начислить</button>
+          <div id="grant-result" class="muted"></div>
+        </div>
+        <div style="text-align:right; margin-top:8px;">
+          <button id="btn-close-admin" class="btn">Закрыть</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+/* public/styles.css — дополнение/мелкие правки для красивой таблицы лидеров, поиска и статусов */
+/* Вставьте (замените) файл styles.css целиком или объедините с вашим текущим.
+   Я сохранил базовую палитру чёрного неонового стиля и добавил лишь необходимые классы. */
+
+/* --- базовые переменные --- */
+:root{
+  --bg:#07080a;
+  --panel:#0f1113;
+  --card:#101214;
+  --accent1:#00a3ff;
+  --accent2:#007bff;
+  --muted:#9aa3ad;
+  --green:#2ecc71;
+  --vipGradient: linear-gradient(90deg,#ff7bd8,#ffd36b,#7be3ff);
+}
+
+/* --- (предполагается, что в основном файле уже есть базовые стили) --- */
+/* расширяем именно те классы, которые я использую в app.js */
+
+.leader-table.enhanced {
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+}
+.leader-table.enhanced thead th {
+  text-align:left;
+  padding:14px 18px;
+  font-size:14px;
+  color:var(--muted);
+  background: rgba(255,255,255,0.02);
+  border-bottom:1px solid rgba(255,255,255,0.03);
+}
+.leader-table.enhanced tbody td {
+  padding:14px 18px;
+  vertical-align:middle;
+  color:#e6f7ff;
+  border-bottom:1px solid rgba(255,255,255,0.01);
+}
+.leader-table.enhanced tbody tr:hover {
+  background: linear-gradient(90deg, rgba(0,163,255,0.02), rgba(0,123,255,0.01));
+  transform: translateY(-2px);
+  transition: all .18s ease;
+}
+.leader-table.enhanced .col-rank { width:64px; font-weight:800; color:var(--accent1); }
+.leader-table.enhanced .col-nick a { font-weight:700; color:#e6f7ff; text-decoration:none; }
+.leader-table.enhanced .col-nick .vip-badge {
+  display:inline-block; width:18px; height:18px; line-height:18px; text-align:center; border-radius:50%;
+  margin-right:8px; filter: drop-shadow(0 0 6px rgba(255,200,60,0.2)); background: var(--vipGradient); color:#031018; font-size:12px;
+}
+.balance-green { color: var(--green); font-weight:700; }
+
+/* статус админа — переливающийся градиент */
+.status-admin {
+  padding:6px 10px;
+  border-radius:10px;
+  font-weight:700;
+  background: linear-gradient(90deg,#ffd36b,#ff7bd8,#7be3ff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation: adminShift 3s linear infinite;
+}
+@keyframes adminShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* поиск — стилизованный блок (вписывается в тёмный фон) */
+.search-wrapper {
+  display:flex; align-items:center; gap:8px; max-width:520px; width:100%;
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:36px; padding:6px; box-shadow: inset 0 2px 8px rgba(0,0,0,0.6);
+}
+.search-input {
+  flex:1; padding:10px 16px; border-radius:30px; border:none; outline:none;
+  background:transparent; color:#e6f7ff; font-size:15px;
+}
+.search-btn {
+  background: linear-gradient(90deg,var(--accent1),var(--accent2)); border-radius:28px; padding:8px 12px; display:flex; align-items:center; justify-content:center; color:#031417; border:none; cursor:pointer;
+  box-shadow: 0 8px 20px rgba(0,163,255,0.12);
+}
+.search-btn i { font-size:16px; }
+
+/* search results */
+#search-results .card { padding:8px 12px; display:flex; justify-content:space-between; align-items:center; gap:8px; }
+
+/* Статусы: карточки и hover-анимация */
+.status-card { transition: transform .18s cubic-bezier(.2,.9,.2,1), box-shadow .18s; }
+.status-card.status-hover:hover { transform: translateY(-6px); box-shadow: 0 18px 48px rgba(0,0,0,0.6); }
+
+/* Кнопки справа (utility), плавный hover */
+.btn { transition: transform .12s ease, box-shadow .12s ease; }
+.btn:hover { transform: translateY(-3px); }
+
+/* адаптив */
+@media (max-width:900px){
+  .leader-table.enhanced thead th, .leader-table.enhanced tbody td { padding:10px 12px; font-size:13px; }
+  .search-wrapper { max-width:100%; }
+}
+
+/* небольшой косметический фикс: убрать outline у input при фокусе */
+input:focus, textarea:focus { outline:none; box-shadow: 0 0 0 3px rgba(0,163,255,0.06); border-radius:6px; }
+
+/* end of custom styles */
